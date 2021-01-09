@@ -146,15 +146,16 @@ var getWeatherForecast = function()
                     var forecastEl = document.querySelector('*[data-forecase="day'+i+'"]');
 
                     var forecastDateEl = document.createElement("h5");
-                    var date = moment().add(i,'days').format("MM/DD/YY");
-                    forecastDateEl.textContent = date;
+                    forecastDateEl.textContent = moment().add(i,'days').format("MM/DD/YY");
                     forecastEl.appendChild(forecastDateEl);
 
                     var forecastTempEl = document.createElement("p");
                     forecastTempEl.textContent = "Temp: " + data.list[i].main.temp + " °F";
                     forecastEl.appendChild(forecastTempEl);
 
-                    console.log(date,data.list[i].main.temp);
+                    var forecastHumidityEl = document.createElement("p");
+                    forecastHumidityEl.textContent = "Humidity: " + data.list[i].main.humidity + " %";
+                    forecastEl.appendChild(forecastHumidityEl);
                 }
 
             })
