@@ -31,13 +31,29 @@
 
         <div id="weatherSection" class="col-8">
           <div id="weatherDetails" class="border">
-            <h2>hhhh</h2>
+            <h2 id="header" class="p-2 pt-4">Location (Date)</h2>
+            <div>
+              <p class="p-1 pl-2">Temperature:<span id="temperature"></span></p>
+              <p class="p-1 pl-2">Humidity:<span id="humidity"></span></p>
+              <p class="p-1 pl-2">Wind Speed:<span id="wind-speed"></span></p>
+              <p class="p-1 pl-2">UV Index:<span id="uv-index"></span></p>
+            </div>
           </div>
-          <div id="weatherForecast"></div>
+          <div id="weatherForecast">
+            <h3 class="m-1 mt-2">5-Day Forecast</h3>
+            <div class="card-group">
+              <div class="card bg-primary text-white m-2" data-forecase="day1"></div>
+              <div class="card bg-primary text-white m-2" data-forecase="day2"></div>
+              <div class="card bg-primary text-white m-2" data-forecase="day3"></div>
+              <div class="card bg-primary text-white m-2" data-forecase="day4"></div>
+              <div class="card bg-primary text-white m-2" data-forecase="day5"></div>
+            </div>
+          </div>
         </div>
       </div>
 
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="./assets/js/script.js"></script>
   </body>
 </html>
