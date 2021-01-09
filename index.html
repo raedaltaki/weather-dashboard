@@ -13,30 +13,32 @@
   <body>
     <h1 class="text-center bg-dark text-white p-3">Weather Dashboard</h1>
       
-    <div class="container m-0 mh-100">
-      <div id="searchSection" class="col-4 bg-light mh-100">
-        <div id="searchForm">
-          <label><h5>Search for a City:</h5></label>
-          <div class="mb-4">
-            <input  class="p-1">
-            <button type="button" class="btn btn-primary"><span class="oi oi-magnifying-glass"></span></button>
+    <div class="container mh-100">
+      <div class="row">
+       <div id="searchSection" class="col-4 bg-light">
+          <div id="searchForm">
+            <label><h5>Search for a City:</h5></label>
+            <div class="mb-4">
+              <input id="searchInput" class="p-1">
+              <button type="button" class="btn btn-primary"><span class="oi oi-magnifying-glass"></span></button>
+            </div>
+          </div>
+          <div id="searchHistory">
+            <ul id="searchHistoryList" class="list-group pb-3">
+            </ul>
           </div>
         </div>
-        <div id="searchHistory">
-          <ul class="list-group">
-            <li class="list-group-item">gggg</li>
-            <li class="list-group-item">gggg</li>
-            <li class="list-group-item">gggg</li>
-          </ul>
-        </div>
-      </div>
 
-      <div id="weatherSection" class="col-8">
-        <div id="weatherDetails"></div>
-        <div id="weatherForecast"></div>
+        <div id="weatherSection" class="col-8">
+          <div id="weatherDetails" class="border">
+            <h2>hhhh</h2>
+          </div>
+          <div id="weatherForecast"></div>
+        </div>
       </div>
 
     </div>
     <script src="./assets/js/script.js"></script>
   </body>
 </html>
+
