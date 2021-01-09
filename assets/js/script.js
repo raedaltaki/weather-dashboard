@@ -1,6 +1,6 @@
 var searchInputEl = document.getElementById("searchInput");
 var searchHistoryListEl = document.getElementById("searchHistoryList");
-var searchBtnEl = document.querySelector(".btn");
+var searchFormEl = document.querySelector("#searchForm");
 var weatherHeaderEl = document.querySelector("#header");
 var tempretureEl = document.querySelector("#temperature");
 var humidityEl = document.querySelector("#humidity");
@@ -8,6 +8,17 @@ var windSpeedEl = document.querySelector("#wind-speed");
 var uvIndexEl = document.querySelector("#uv-index");
 
 var searchHistory = [];
+
+var startPage = function()
+{
+    loadSearchHistory();
+    var searchCountry = document.location.search;
+    if(searchCountry)
+    {
+        var country = searchCountry.split("=")[1];
+        getWeatherDetails(country);
+    }
+};
 
 var loadSearchHistory = function()
 {
@@ -24,10 +35,12 @@ var loadSearchHistory = function()
     var historylimit =10;
     for(var i = searchHistory.length-1 ; i>-1; i--)
     {
-        var newSearch = document.createElement("li");
-        newSearch.className = "list-group-item"
-        newSearch.textContent = searchHistory[i];
-        searchHistoryListEl.appendChild(newSearch);
+        var newSearchLinkEl = document.createElement("a");
+        newSearchLinkEl.textContent = searchHistory[i];
+        newSearchLinkEl.className = "list-group-item";
+        newSearchLinkEl.href = "./index.html?country="+searchHistory[i];
+
+        searchHistoryListEl.appendChild(newSearchLinkEl);
         historylimit--;
         if(historylimit===0)
         {
@@ -36,9 +49,23 @@ var loadSearchHistory = function()
     }
 };
 
-var getWeatherDetails = function()
+var handleSubmitForm = function(event)
 {
+    event.preventDefault();
     var country = searchInputEl.value.trim();
+    searchInputEl.value = "";
+    if(country)
+    {
+       document.location.replace("./index.html?country="+country);
+    }
+    else
+    {
+        window.alert("Please Enter City Name!!!");
+    } 
+}
+
+var getWeatherDetails = function(country)
+{
     var weatherURL = "http://api.openweathermap.org/data/2.5/weather?appid=274cbbc7cb2cf2adbf2edf074233aaec&units=imperial&q=" + country;
     fetch(weatherURL)
         .then(function(response)
@@ -47,7 +74,7 @@ var getWeatherDetails = function()
             {
                 response.json().then(function(data)
                 {
-                    var today = moment().format("MM/DD/YY");
+                    var today = moment(data.dt,"X").format("MM/DD/YY");;
                     weatherHeaderEl.textContent = data.name + " (" + today + ")";
 
                     var weathericonEl= document.createElement("img");
@@ -58,25 +85,26 @@ var getWeatherDetails = function()
                     var lon = data.coord.lon;
                     getTodayWeather(lat,lon);
                     getWeatherForecast(lat,lon);
+                    addSearchHistory(data.name);
                 })
             }
             else
             {
-                alert("1111111");
+                alert("Error: Please Enter a Valid City Name !!!");
+                document.location.replace("./index.html");
             }
         })
         .catch(function(error)
         {
-            alert("22222222");
+            alert("Error: Cannot connect to the server.\n          Please check your Internet connection.");
         })
-
-        addSearchHistory();
+        
 };
 
 var getTodayWeather = function(lat,lon)
 {
-    var weatherURL = "https://api.openweathermap.org/data/2.5/onecall?exclude=hourly,minutely&units=imperial&appid=274cbbc7cb2cf2adbf2edf074233aaec&lat="+lat+"&lon="+lon;
-    fetch(weatherURL)
+    var todayWeatherURL = "https://api.openweathermap.org/data/2.5/onecall?exclude=hourly,minutely&units=imperial&appid=274cbbc7cb2cf2adbf2edf074233aaec&lat="+lat+"&lon="+lon;
+    fetch(todayWeatherURL)
         .then(function(response)
         {
             if(response.ok)
@@ -85,54 +113,59 @@ var getTodayWeather = function(lat,lon)
                 {
                     tempretureEl.textContent =" " + data.current.temp + " °F";
                     humidityEl.textContent =" " + data.current.humidity + " %";
-                    windSpeedEl.textContent =" " + data.current.wind_speed + " m/s";
+                    windSpeedEl.textContent =" " + data.current.wind_speed + " MPH";
                     uvIndexEl.textContent =" " + data.current.uvi;
-                    uvIndexEl.style.color = "white";
-                    var uvindex = parseInt(data.current.uvi);
-    
-                    switch(uvindex)
-                    {
-                        case 0:
-                        case 1:
-                        case 2:
-                            uvIndexEl.style.backgroundColor = "green";
-                            break;
-                        case 3:
-                        case 4:
-                        case 5:
-                            uvIndexEl.style.backgroundColor = "yellow";
-                            break;
-                        case 6:
-                        case 7:
-                            uvIndexEl.style.backgroundColor = "orange";
-                            break;
-                        case 8:
-                        case 9:
-                        case 10:
-                            uvIndexEl.style.backgroundColor = "yellow";
-                            break;
-                        default:
-                            uvIndexEl.style.backgroundColor = "purple";
-                            break;
-                    }
+                    styleIndex(data.current.uvi);
                 })
             }
             else
             {
-                alert("1111111");
+                alert("Error: Cannot find the coordination for entered city");
             }
         })
         .catch(function(error)
         {
-            alert("22222222");
+            alert("Error: Cannot connect to the server.\n          Please check your Internet connection.");
         })
+}
 
+var styleIndex = function(uvi)
+{
+    uvIndexEl.classList = "badge";
+    uvIndexEl.style.color = "white";
+    var uvindex = parseInt(uvi);
+    
+    switch(uvindex)
+    {
+        case 0:
+        case 1:
+        case 2:
+            uvIndexEl.style.backgroundColor = "#36db3a";
+            break;
+        case 3:
+        case 4:
+        case 5:
+            uvIndexEl.style.backgroundColor = "#ffcc0c";
+            break;
+        case 6:
+        case 7:
+            uvIndexEl.style.backgroundColor = "#f57c11";
+            break;
+        case 8:
+        case 9:
+        case 10:
+            uvIndexEl.style.backgroundColor = "#f6562a";
+            break;
+        default:
+            uvIndexEl.style.backgroundColor = "#c664f3";
+            break;
+    }
 }
 
 var getWeatherForecast = function(lat,lon)
 {
-    var weatherURL = "https://api.openweathermap.org/data/2.5/onecall?exclude=hourly,minutely&units=imperial&appid=274cbbc7cb2cf2adbf2edf074233aaec&lat="+lat+"&lon="+lon;
-    fetch(weatherURL)
+    var forecastWeatherURL = "https://api.openweathermap.org/data/2.5/onecall?exclude=hourly,minutely&units=imperial&appid=274cbbc7cb2cf2adbf2edf074233aaec&lat="+lat+"&lon="+lon;
+    fetch(forecastWeatherURL)
         .then(function(response)
         {   if(response.ok)
             {
@@ -157,39 +190,26 @@ var getWeatherForecast = function(lat,lon)
 
                         var forecastHumidityEl = document.createElement("p");
                         forecastHumidityEl.textContent = "Humidity: " + data.daily[i].humidity + " %";
-                        forecastEl.appendChild(forecastHumidityEl);
-                        
+                        forecastEl.appendChild(forecastHumidityEl);   
                     }
-
                 })
             }
             else
             {
-
+                alert("Error: Cannot find the coordination for entered city");
             }
         })
         .catch(function(error)
         {
-
+            alert("Error: Cannot connect to the server.\n          Please check your Internet connection.");
         })
-
 };
 
-var addSearchHistory = function()
+var addSearchHistory = function(country)
 {
-    //load search history from local storage
-    var searchInput = searchInputEl.value;
-    searchInputEl.value = "";
-    if(searchInput)
-    {
-        searchHistory.push(searchInput);
-        saveSearchHistory();
-        loadSearchHistory();
-    }
-    else
-    {
-        window.alert("Please Enter Search City !!!");
-    }
+    searchHistory.push(country);
+    saveSearchHistory();
+    loadSearchHistory();
 };
 
 var saveSearchHistory = function()
@@ -197,8 +217,5 @@ var saveSearchHistory = function()
     localStorage.setItem("history",searchHistory);
 };
 
-
-
-loadSearchHistory();
-
-searchBtnEl.addEventListener("click",getWeatherDetails)
+startPage();
+searchFormEl.addEventListener("submit",handleSubmitForm);

@@ -11,18 +11,16 @@
   </head>
 
   <body>
-    <h1 class="text-center bg-dark text-white p-3">Weather Dashboard</h1>
+    <a href="./index.html"><h1 class="text-center bg-dark text-white p-3">Weather Dashboard</h1></a>
       
     <div class="container mh-100">
       <div class="row">
        <div id="searchSection" class="col-4 bg-light">
-          <div id="searchForm">
+          <form id="searchForm" class="mb-4">
             <label><h5>Search for a City:</h5></label>
-            <div class="mb-4">
-              <input id="searchInput" class="p-1">
-              <button type="button" class="btn btn-primary"><span class="oi oi-magnifying-glass"></span></button>
-            </div>
-          </div>
+            <input id="searchInput" class="p-1">
+            <button type="submit" class="btn btn-primary"><span class="oi oi-magnifying-glass"></span></button>
+          </form>
           <div id="searchHistory">
             <ul id="searchHistoryList" class="list-group pb-3">
             </ul>
@@ -31,7 +29,7 @@
 
         <div id="weatherSection" class="col-8 p-3">
           <div id="weatherDetails" class="border p-3">
-            <h2 id="header" class="pt-2 pb-2">Location (Date)</h2>
+            <h2 id="header">Location (Date)</h2>
             <div>
               <p>Temperature:<span id="temperature"></span></p>
               <p>Humidity:<span id="humidity"></span></p>
@@ -41,7 +39,7 @@
           </div>
           <div id="weatherForecast">
             <h3 class="m-1 mt-2">5-Day Forecast</h3>
-            <div class="row">
+            <div class="row ml-1">
               <div class="card bg-primary text-white m-2 p-2" data-forecase="day1"></div>
               <div class="card bg-primary text-white m-2 p-2" data-forecase="day2"></div>
               <div class="card bg-primary text-white m-2 p-2" data-forecase="day3"></div>
