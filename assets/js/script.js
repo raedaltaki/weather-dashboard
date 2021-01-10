@@ -107,7 +107,7 @@ var getWeatherDetails = function(country)
 //get today weather
 var getTodayWeather = function(lat,lon)
 {
-    var todayWeatherURL = "https://api.openweathermap.org/data/2.5/onecall?exclude=hourly,minutely&units=imperial&appid=274cbbc7cb2cf2adbf2edf074233aaec&lat="+lat+"&lon="+lon;
+    var todayWeatherURL = "http://api.openweathermap.org/data/2.5/onecall?exclude=hourly,minutely&units=imperial&appid=274cbbc7cb2cf2adbf2edf074233aaec&lat="+lat+"&lon="+lon;
     fetch(todayWeatherURL)
         .then(function(response)
         {
@@ -170,7 +170,7 @@ var styleIndex = function(uvi)
 //get forecast weather for the next 5 days
 var getWeatherForecast = function(lat,lon)
 {
-    var forecastWeatherURL = "https://api.openweathermap.org/data/2.5/onecall?exclude=hourly,minutely&units=imperial&appid=274cbbc7cb2cf2adbf2edf074233aaec&lat="+lat+"&lon="+lon;
+    var forecastWeatherURL = "http://api.openweathermap.org/data/2.5/onecall?exclude=hourly,minutely&units=imperial&appid=274cbbc7cb2cf2adbf2edf074233aaec&lat="+lat+"&lon="+lon;
     fetch(forecastWeatherURL)
         .then(function(response)
         {   if(response.ok)
