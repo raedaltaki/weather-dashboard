@@ -70,7 +70,7 @@ var handleSubmitForm = function(event)
 //get weather details
 var getWeatherDetails = function(country)
 {
-    var weatherURL = "http://api.openweathermap.org/data/2.5/weather?appid=274cbbc7cb2cf2adbf2edf074233aaec&units=imperial&q=" + country;
+    var weatherURL = "https://api.openweathermap.org/data/2.5/weather?appid=274cbbc7cb2cf2adbf2edf074233aaec&units=imperial&q=" + country;
     fetch(weatherURL)
         .then(function(response)
         {
@@ -101,13 +101,14 @@ var getWeatherDetails = function(country)
         .catch(function(error)
         {
             alert("Error: Cannot connect to the server.\n          Please check your Internet connection.");
+            document.location.replace("./index.html");
         })
 };
 
 //get today weather
 var getTodayWeather = function(lat,lon)
 {
-    var todayWeatherURL = "http://api.openweathermap.org/data/2.5/onecall?exclude=hourly,minutely&units=imperial&appid=274cbbc7cb2cf2adbf2edf074233aaec&lat="+lat+"&lon="+lon;
+    var todayWeatherURL = "https://api.openweathermap.org/data/2.5/onecall?exclude=hourly,minutely&units=imperial&appid=274cbbc7cb2cf2adbf2edf074233aaec&lat="+lat+"&lon="+lon;
     fetch(todayWeatherURL)
         .then(function(response)
         {
@@ -170,7 +171,7 @@ var styleIndex = function(uvi)
 //get forecast weather for the next 5 days
 var getWeatherForecast = function(lat,lon)
 {
-    var forecastWeatherURL = "http://api.openweathermap.org/data/2.5/onecall?exclude=hourly,minutely&units=imperial&appid=274cbbc7cb2cf2adbf2edf074233aaec&lat="+lat+"&lon="+lon;
+    var forecastWeatherURL = "https://api.openweathermap.org/data/2.5/onecall?exclude=hourly,minutely&units=imperial&appid=274cbbc7cb2cf2adbf2edf074233aaec&lat="+lat+"&lon="+lon;
     fetch(forecastWeatherURL)
         .then(function(response)
         {   if(response.ok)

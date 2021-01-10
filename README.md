@@ -12,30 +12,26 @@
 
 ## Website:
 
-A simple calendar application for scheduling your work day and saving events for each hour of the day.
+A weather dashboard application. It helps you to check and search for a weather in any city.
 
-It allows you to add important events so you can manage your time effectively.
-
-https://raedaltaki.github.io/super-disco/
+https://raedaltaki.github.io/weather-dashboard/index.html
 
 
 ## Usage:
-Open the website and schedule your work day.
+Open the website and check for the weather of any city.
 
--When you open the planner the current day is displayed at the top of the calendar.
+- When you search for a city you will be presented with current and future conditions for that city and that city will be added to the search history.
 
--When you scroll down, you are presented with time blocks for standard business hours.
+- When you view current weather conditions for that city you are presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index.
 
--When you view the time blocks for that day, each time block is color-coded to indicate whether it is in the past,present, or future.
+- When you view the UV index then you are presented with a color that indicates whether the conditions are favorable, moderate, or severe.
 
--When you click into a time block, you can enter an event.
+- When you view future weather conditions for that city you are presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, and the humidity.
 
--When you click the save button for that time block, the text for that event is saved in local storage.
-
--When you refresh the page, the saved events persist.
+- When you click on a city in the search history, you are presented with current and future conditions for that city.
 
 
-![Image 1](./assets/images/demo.gif)
+![Image 1](./assets/images/demo.png)
 
 
 ## Credits:
@@ -234,17 +230,6 @@ https://github.com/raedaltaki/weather-dashboard
       of your accepting any such warranty or additional liability.
 
    END OF TERMS AND CONDITIONS
-
-   APPENDIX: How to apply the Apache License to your work.
-
-      To apply the Apache License to your work, attach the following
-      boilerplate notice, with the fields enclosed by brackets "[]"
-      replaced with your own identifying information. (Don't include
-      the brackets!)  The text should be enclosed in the appropriate
-      comment syntax for the file format. We also recommend that a
-      file or class name and description of purpose be included on the
-      same "printed page" as the copyright notice for easier
-      identification within third-party archives.
 
    Copyright 2021 Raed Altaki
 
