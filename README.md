@@ -12,7 +12,7 @@
 
 ## Website:
 
-A weather dashboard application. It helps you to check and search for a weather in any city.
+A weather dashboard application. It helps you to check and search for the weather of any city.
 
 https://raedaltaki.github.io/weather-dashboard/index.html
 
