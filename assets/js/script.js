@@ -215,9 +215,24 @@ var getWeatherForecast = function(lat,lon)
 //add to search history and display it
 var addSearchHistory = function(country)
 {
-    searchHistory.push(country);
-    saveSearchHistory();
-    loadSearchHistory();
+    var existFlag = false;
+
+    for (var i =0;i<searchHistory.length;i++)
+    {
+        console.log(country,searchHistory[i]);
+        if(searchHistory[i]===country)
+        {
+            existFlag = true;
+            break;
+        }
+    }
+    if (existFlag===false)
+    {
+        searchHistory.push(country);
+        saveSearchHistory();
+        loadSearchHistory();
+    }
+
 };
 
 //save search history
