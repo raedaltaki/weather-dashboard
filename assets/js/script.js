@@ -215,24 +215,18 @@ var getWeatherForecast = function(lat,lon)
 //add to search history and display it
 var addSearchHistory = function(country)
 {
-    var existFlag = false;
-
     for (var i =0;i<searchHistory.length;i++)
     {
-        console.log(country,searchHistory[i]);
-        if(searchHistory[i]===country)
+        if(searchHistory[i]===country) // if there is duplicate remove the old one
         {
-            existFlag = true;
+            searchHistory.splice(i,1);
             break;
         }
     }
-    if (existFlag===false)
-    {
-        searchHistory.push(country);
-        saveSearchHistory();
-        loadSearchHistory();
-    }
 
+    searchHistory.push(country);
+    saveSearchHistory();
+    loadSearchHistory();
 };
 
 //save search history
