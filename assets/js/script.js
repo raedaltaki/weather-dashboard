@@ -6,16 +6,69 @@ var tempretureEl = document.querySelector("#temperature");
 var humidityEl = document.querySelector("#humidity");
 var windSpeedEl = document.querySelector("#wind-speed");
 var uvIndexEl = document.querySelector("#uv-index");
+var unitSectionEl = document.querySelector("#unit-section");
+var metricEl = document.getElementById("metric");
+var imperialEl = document.getElementById("imperial");
 
 var searchHistory = [];
+var unit;
+var tempUnit;
+var speedUnit;
+
+var unitChangeMetric = function()
+{
+    unit = "metric";
+    changeUnits();
+}
+    
+var unitChangeImperial = function()
+{
+    unit = "imperial";
+    changeUnits();
+}
+
+var changeUnits = function()
+{
+    localStorage.setItem("unit",unit);
+
+    var attribites = document.location.search;
+    var country = attribites.split("=")[1];
+    document.location.replace("./index.html?country="+country);
+}
+
+var loadUnit = function()
+{
+    unit = localStorage.getItem("unit");
+    if (!unit)
+    {
+        unit = "metric";
+    }
+
+    if (unit === "metric")
+    {
+        metricEl.checked = true;
+        tempUnit = " °C";
+        speedUnit = " KM/H";
+    }
+    if (unit === "imperial")
+    {
+        imperialEl.checked = true;
+        tempUnit = " °F";
+        speedUnit = " MPH";
+    }
+}
 
 //start function to load the first page
 var startPage = function()
 {
+    unitSectionEl.style.visibility = "hidden";
     loadSearchHistory(); //load the saved search history
     var searchCountry = document.location.search; //get search attribute if available
     if(searchCountry) //if search attribute is available 
     {
+        unitSectionEl.style.visibility = "visible";
+        loadUnit();
+
         var country = searchCountry.split("=")[1]; //get the country name 
         getWeatherDetails(country); //and get weather details for the country 
     }
@@ -70,7 +123,7 @@ var handleSubmitForm = function(event)
 //get weather details
 var getWeatherDetails = function(country)
 {
-    var weatherURL = "https://api.openweathermap.org/data/2.5/weather?appid=274cbbc7cb2cf2adbf2edf074233aaec&units=imperial&q=" + country;
+    var weatherURL = "https://api.openweathermap.org/data/2.5/weather?appid=274cbbc7cb2cf2adbf2edf074233aaec&units="+unit+"&q=" + country;
     fetch(weatherURL)
         .then(function(response)
         {
@@ -108,7 +161,7 @@ var getWeatherDetails = function(country)
 //get today's weather
 var getTodayWeather = function(lat,lon)
 {
-    var todayWeatherURL = "https://api.openweathermap.org/data/2.5/onecall?exclude=hourly,minutely&units=imperial&appid=274cbbc7cb2cf2adbf2edf074233aaec&lat="+lat+"&lon="+lon;
+    var todayWeatherURL = "https://api.openweathermap.org/data/2.5/onecall?exclude=hourly,minutely&units="+unit+"&appid=274cbbc7cb2cf2adbf2edf074233aaec&lat="+lat+"&lon="+lon;
     fetch(todayWeatherURL)
         .then(function(response)
         {
@@ -116,9 +169,9 @@ var getTodayWeather = function(lat,lon)
             {
                 response.json().then(function(data)
                 {
-                    tempretureEl.textContent =" " + data.current.temp + " °F";
+                    tempretureEl.textContent =" " + data.current.temp + tempUnit;
                     humidityEl.textContent =" " + data.current.humidity + " %";
-                    windSpeedEl.textContent =" " + data.current.wind_speed + " MPH";
+                    windSpeedEl.textContent =" " + data.current.wind_speed + speedUnit;
                     uvIndexEl.textContent =" " + data.current.uvi;
                     styleIndex(data.current.uvi); //style UV Index based on the conditions
                 })
@@ -171,7 +224,7 @@ var styleIndex = function(uvi)
 //get forecast weather for the next 5 days
 var getWeatherForecast = function(lat,lon)
 {
-    var forecastWeatherURL = "https://api.openweathermap.org/data/2.5/onecall?exclude=hourly,minutely&units=imperial&appid=274cbbc7cb2cf2adbf2edf074233aaec&lat="+lat+"&lon="+lon;
+    var forecastWeatherURL = "https://api.openweathermap.org/data/2.5/onecall?exclude=hourly,minutely&units="+unit+"&appid=274cbbc7cb2cf2adbf2edf074233aaec&lat="+lat+"&lon="+lon;
     fetch(forecastWeatherURL)
         .then(function(response)
         {   if(response.ok)
@@ -192,7 +245,7 @@ var getWeatherForecast = function(lat,lon)
                         forecastEl.appendChild(forecastIconEl);
 
                         var forecastTempEl = document.createElement("p"); //temperature
-                        forecastTempEl.textContent = "Temp: " + data.daily[i].temp.day + " °F";
+                        forecastTempEl.textContent = "Temp: " + data.daily[i].temp.day + tempUnit;
                         forecastEl.appendChild(forecastTempEl);
 
                         var forecastHumidityEl = document.createElement("p"); //humidity
@@ -237,3 +290,5 @@ var saveSearchHistory = function()
 
 startPage();
 searchFormEl.addEventListener("submit",handleSubmitForm);
+metricEl.addEventListener("change",unitChangeMetric);
+imperialEl.addEventListener("change",unitChangeImperial);
